@@ -39,21 +39,24 @@ public class Triangle {
 	 * @return - возвращает площадь треугольника.
 	*/
 	public double area() {
-		boolean triangle;
-		if (a.getX() == b.getX() && a.getY() == b.getY() || a.getX() == c.getX() && a.getY() == c.getY() || c.getX() == b.getX() && c.getY() == b.getY()) {
-			triangle = false;
-		} else {
-			triangle = true;
-		}
-
-		if (triangle) {
-			double ab = Math.sqrt(Math.pow(Math.abs(a.getX() - b.getX()), 2) + Math.pow(Math.abs(a.getY() - b.getY()), 2));
-			double ac = Math.sqrt(Math.pow(Math.abs(a.getX() - c.getX()), 2) + Math.pow(Math.abs(a.getY() - c.getY()), 2));
-			double bc = Math.sqrt(Math.pow(Math.abs(b.getX() - c.getX()), 2) + Math.pow(Math.abs(b.getY() - c.getY()), 2));
-			double p = (ab + ac + bc) / 2;
+		double ab = calculationLineLength(a, b);
+		double ac = calculationLineLength(a, c);
+		double bc = calculationLineLength(b, c);
+		double p = (ab + ac + bc) / 2;
+		if (ab + ac > bc & ab + bc > ac & bc + ac > ab) {
 			return Math.sqrt(p * (p - ab) * (p - ac) * (p - bc));
 		} else {
 			return 0.0;
 		}
+	}
+
+	/**
+	 * calculationLineLength Метод вычисляющий длину стороны треугольника.
+	 * @param firstPoint - координаты первой точки.
+	 * @param secondPoint - координаты второй точки.
+	 * @return - возращат длину стороны.
+	*/
+	public double calculationLineLength(Point firstPoint, Point secondPoint) {
+		return Math.sqrt(Math.pow(Math.abs(firstPoint.getX() - secondPoint.getX()), 2) + Math.pow(Math.abs(firstPoint.getY() - secondPoint.getY()), 2));
 	}
 }
