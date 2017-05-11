@@ -23,7 +23,7 @@ public class BoardTest {
         final String line = System.getProperty("line.separator");
         String expected = String.format("x x%s x %sx x%s", line, line, line);
         assertThat(result, is(expected));
- }
+	}
 	/**
 	  * Test whenPaintBoardWithWidthFiveAndHeightFourThenStringWithFiveColsAndFourRows.
 	 */

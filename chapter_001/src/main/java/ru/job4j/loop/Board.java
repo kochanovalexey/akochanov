@@ -23,7 +23,7 @@ public class Board {
 					builder.append(" ");
 				}
 			}
-			builder.append("\r\n");
+			builder.append(System.getProperty("line.separator"));
 		}
 		return builder.toString();
 	}
