@@ -16,22 +16,18 @@ public class ArrayDuplicate {
 	*/
 	public String[] remove(String[] array) {
 		int sumNoDuplicateString = array.length;
+		int count = 0;
 		for (int i = 0; i < array.length - 2; i++) {
-			if (array[i] == "") {
-				continue;
-			}
-			for (int j = i + 1; j < array.length; j++) {
+			for (int j = i + 1; j < array.length - count; j++) {
 				if (array[i].equals(array[j])) {
-					array[j] = "";
+					count += 1;
 					sumNoDuplicateString -= 1;
-				}
-			}
-		}
-		for (int i = array.length - 1; i >= 0; i--) {
-			for (int j = 0; j < i; j++) {
-				if (array[j].equals("")) {
-					array[j] = array[j + 1];
-					array[j + 1] = "";
+					for (int k = j; k < array.length - 1; k++) {
+						String helper = "";
+						array[k] = helper;
+						array[k] = array[k + 1];
+						array[k + 1] = helper;
+					}
 				}
 			}
 		}
