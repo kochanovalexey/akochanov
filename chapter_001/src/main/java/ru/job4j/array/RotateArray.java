@@ -14,13 +14,15 @@ public class RotateArray {
 	*/
 	public int[][] rotate(int[][] array) {
 		for (int i = 0; i < array.length - 1; i++) {
-			int helperX = array[i][array.length - 1];
-			array[i][array.length - 1] = array[0][i];
-			int helperY = array[array.length - 1][array.length - 1 - i];
-			array[array.length - 1][array.length - 1 - i] = helperX;
-			helperX = array[array.length - 1 - i][0];
-			array[array.length - 1 - i][0] = helperY;
-			array[0][i] = helperX;
+			for (int j = 0; j < array.length - 1 - i * 2; j++) {
+				int helperX = array[i + j][array.length - 1 - i];
+				array[i + j][array.length - 1 - i] = array[i][i + j];
+				int helperY = array[array.length - 1 - i][array.length - 1 - j - i];
+				array[array.length - 1 - i][array.length - 1 - j - i] = helperX;
+				helperX = array[array.length - 1 - j - i][i];
+				array[array.length - 1 - j - i][i] = helperY;
+				array[i][i + j] = helperX;
+			}
 		}
 		return array;
 	}
