@@ -12,3 +12,7 @@
 hs_err_pid*
 
 target
+.idea
+*.iml
+desktop.ini
+chapter_002/src/
