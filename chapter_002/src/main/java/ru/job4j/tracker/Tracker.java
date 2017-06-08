@@ -40,14 +40,9 @@ public class Tracker {
      * @param item - измененный Item.
      */
     public void update(Item item) {
-        if (item == null) {
-            return;
-        }
-        for (int i = 0; i < this.items.length; i++) {
-            if (this.items[i] != null && this.items[i].getId().equals(item.getId())) {
+        for (int i = 0; i < this.position; i++) {
+            if (this.items[i].getId().equals(item.getId())) {
                 this.items[i] = item;
-                break;
-            } else if (this.items[i] == null) {
                 break;
             }
         }
@@ -58,18 +53,16 @@ public class Tracker {
      * @param item - удаляемый Item.
      */
     public void delete(Item item) {
-        for (int i = 0; i < this.items.length; i++) {
-            if (this.items[i] != null && this.items[i].getId().equals(item.getId())) {
+        for (int i = 0; i < this.position; i++) {
+            if (this.items[i].getId().equals(item.getId())) {
                 this.items[i] = null;
                 position--;
-                for (int j = i; j < this.items.length - 1; j++) {
+                for (int j = i; j < position - 1; j++) {
                     Item nextItem = this.items[j + 1];
                     this.items[j + 1] = this.items[j];
                     this.items[j] = nextItem;
                 }
                 break;
-            } else if (this.items[i] == null) {
-                return;
             }
         }
     }
@@ -80,10 +73,7 @@ public class Tracker {
      */
     public Item[] findAll() {
         Item[] result = new Item[position];
-        for (int i = 0; i < position; i++) {
-            result[i] = this.items[i];
-        }
-        return result;
+        return Arrays.copyOf(this.items, position);
     }
 
     /**
@@ -94,11 +84,9 @@ public class Tracker {
     public Item[] findByName(String key) {
         Item[] result = new Item[items.length];
         int index = 0;
-        for (Item item : items) {
-            if (item != null && item.getName().equals(key)) {
-                result[index++] = item;
-            } else if (item == null) {
-                break;
+        for (int i = 0; i < position; i++) {
+            if (items[i].getName().equals(key)) {
+                result[index++] = items[i];
             }
         }
         return Arrays.copyOf(result, index);
@@ -111,9 +99,9 @@ public class Tracker {
      */
     public Item findById(String id) {
         Item result = null;
-            for (Item item : this.items) {
-                if (item != null && item.getId().equals(id)) {
-                    result = item;
+            for (int i = 0; i < position; i++) {
+                if (items[i].getId().equals(id)) {
+                    result = items[i];
                     break;
                 }
             }
