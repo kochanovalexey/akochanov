@@ -41,7 +41,7 @@ public class Tracker {
      */
     public void update(Item item) {
         for (int i = 0; i < this.position; i++) {
-            if (this.items[i].getId().equals(item.getId())) {
+            if (this.items[i] != null && this.items[i].getId().equals(item.getId())) {
                 this.items[i] = item;
                 break;
             }
@@ -54,7 +54,7 @@ public class Tracker {
      */
     public void delete(Item item) {
         for (int i = 0; i < this.position; i++) {
-            if (this.items[i].getId().equals(item.getId())) {
+            if (this.items[i] != null && this.items[i].getId().equals(item.getId())) {
                 this.items[i] = null;
                 position--;
                 for (int j = i; j < position - 1; j++) {
@@ -85,7 +85,7 @@ public class Tracker {
         Item[] result = new Item[items.length];
         int index = 0;
         for (int i = 0; i < position; i++) {
-            if (items[i].getName().equals(key)) {
+            if (this.items[i] != null && items[i].getName().equals(key)) {
                 result[index++] = items[i];
             }
         }
@@ -100,7 +100,7 @@ public class Tracker {
     public Item findById(String id) {
         Item result = null;
             for (int i = 0; i < position; i++) {
-                if (items[i].getId().equals(id)) {
+                if (this.items[i] != null && items[i].getId().equals(id)) {
                     result = items[i];
                     break;
                 }
