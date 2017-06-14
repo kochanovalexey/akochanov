@@ -10,10 +10,13 @@ import java.util.Scanner;
  * @since 0.1
  */
 public class ConsoleInput implements Input {
-    Scanner scanner = new Scanner(System.in);
+    /**
+     * scanner.
+     */
+    private Scanner scanner = new Scanner(System.in);
     @Override
     public String ask(String question) {
-        System.out.print(question);
+        System.out.println(question);
         return scanner.next();
     }
 }
