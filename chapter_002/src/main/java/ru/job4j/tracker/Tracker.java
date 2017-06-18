@@ -57,7 +57,7 @@ public class Tracker {
             if (this.items[i] != null && this.items[i].getId().equals(item.getId())) {
                 this.items[i] = null;
                 position--;
-                for (int j = i; j < position - 1; j++) {
+                for (int j = i; j < position; j++) {
                     Item nextItem = this.items[j + 1];
                     this.items[j + 1] = this.items[j];
                     this.items[j] = nextItem;
