@@ -89,7 +89,11 @@ public class Tracker {
                 result[index++] = items[i];
             }
         }
-        return Arrays.copyOf(result, index);
+        if (result[0] == null) {
+            return null;
+        } else {
+            return Arrays.copyOf(result, index);
+        }
     }
 
     /**
