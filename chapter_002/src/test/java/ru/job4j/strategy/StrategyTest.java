@@ -26,7 +26,7 @@ public class StrategyTest extends Paint {
         Paint paint = new Paint();
         paint.draw(new Square());
         final String line = "0 0 0 0 0 " + System.getProperty("line.separator");
-        assertThat(out.toString(), is(String.format("%s%s%s%s", line, line, line, line)));
+        assertThat(out.toString(), is(String.format("%s%<s%<s%<s", line)));
     }
     /**
      * Test whenPrintTriangle.
@@ -38,6 +38,6 @@ public class StrategyTest extends Paint {
         Paint paint = new Paint();
         paint.draw(new Triangle());
         final String line = System.getProperty("line.separator");
-        assertThat(out.toString(), is(String.format("O%sOOO%sOOOOO%sOOOOOOO%sOOOOOOOOO%s", line, line, line, line, line)));
+        assertThat(out.toString(), is(String.format("O%sOOO%<sOOOOO%<sOOOOOOO%<sOOOOOOOOO%<s", line)));
     }
 }
