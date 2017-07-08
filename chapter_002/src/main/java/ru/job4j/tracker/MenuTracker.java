@@ -41,6 +41,17 @@ public class MenuTracker  {
         this.actions[5] = new FindItemsByName();
     }
     /**
+     * Метод возращает массив ключей меню.
+     * @return - массив ключей меню.
+     */
+    public int[] returnArrayOfMenuKeys() {
+        int[] range = new int[this.actions.length];
+        for (int i = 0; i < this.actions.length; i++) {
+            range[i] = actions[i].key();
+        }
+        return range;
+    }
+    /**
      * Метод по ключу вызывает выполнение пункта меню.
      * @param key - ключ.
      */

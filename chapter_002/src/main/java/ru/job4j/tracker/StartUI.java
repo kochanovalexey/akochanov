@@ -31,7 +31,7 @@ public class StartUI {
      * @param args - массив строк.
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(), new Tracker()).init();
     }
     /**
      * Метод init.
@@ -41,8 +41,7 @@ public class StartUI {
         menu.fillActions();
         do {
             menu.showMenu();
-            int key = Integer.valueOf(input.ask("Select:"));
-            menu.selectMenuItem(key);
+            menu.selectMenuItem(input.ask("Select", menu.returnArrayOfMenuKeys()));
         } while (!"y".equals(this.input.ask("Exit?(y):")));
     }
 }

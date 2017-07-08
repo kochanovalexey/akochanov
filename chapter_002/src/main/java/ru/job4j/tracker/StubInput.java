@@ -9,23 +9,37 @@ package ru.job4j.tracker;
  */
 public class StubInput implements Input {
     /**
-     * Массив Answer.
+     * Массив answerOnQuestion.
      */
-    private String[] answer;
+    private String[] answerOnQuestion;
     /**
-     * Позиция.
+     * Массив answerItemMenu.
      */
-    private int position;
+    private int[] answerItemMenu;
+    /**
+     * Позиция в массиве answerOnQuestion.
+     */
+    private int positionAnswerOnQuestion;
+    /**
+     * Позиция в массиве positionAnswerItemMenu.
+     */
+    private int positionAnswerItemMenu;
 
     /**
      * Конструктор класса.
-     * @param answer - answer.
+     * @param answerOnQuestion - answer on question.
+     * @param answerItemMenu - answer item menu.
      */
-    public StubInput(String[] answer) {
-        this.answer = answer;
+    public StubInput(String[] answerOnQuestion, int[] answerItemMenu) {
+        this.answerOnQuestion = answerOnQuestion;
+        this.answerItemMenu = answerItemMenu;
     }
     @Override
     public String ask(String question) {
-        return answer[position++];
+        return answerOnQuestion[positionAnswerOnQuestion++];
+    }
+    @Override
+    public int ask(String question, int[] range) {
+        return answerItemMenu[positionAnswerItemMenu++];
     }
 }
