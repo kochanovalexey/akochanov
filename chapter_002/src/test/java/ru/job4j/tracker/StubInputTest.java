@@ -70,4 +70,14 @@ public class StubInputTest {
         new StartUI(input, tracker).init();
         assertNull(tracker.findByName("test name"));
     }
+
+    /**
+     * Test whenUserCausesException.
+     */
+    @Test(expected = MenuOutException.class)
+    public void whenUserCausesException() {
+        Tracker tracker = new Tracker();
+        Input input = new StubInput(new String[]{"test name", "desc", "y"}, new int[]{10});
+        new StartUI(input, tracker).init();
+    }
 }

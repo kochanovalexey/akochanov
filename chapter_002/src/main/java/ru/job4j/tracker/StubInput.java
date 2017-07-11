@@ -40,6 +40,12 @@ public class StubInput implements Input {
     }
     @Override
     public int ask(String question, int[] range) {
-        return answerItemMenu[positionAnswerItemMenu++];
+        int value = answerItemMenu[positionAnswerItemMenu++];
+        for (int item : range) {
+            if (item == value) {
+                return value;
+            }
+        }
+        throw new MenuOutException("Out of menu range. ");
     }
 }
