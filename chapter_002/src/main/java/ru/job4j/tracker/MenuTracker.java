@@ -7,7 +7,7 @@ package ru.job4j.tracker;
  * @version $ld$
  * @since 0.1
  */
-public class MenuTracker  {
+public class MenuTracker {
     /**
      * Input.
      */
@@ -18,17 +18,20 @@ public class MenuTracker  {
     private Tracker tracker;
     /**
      * Массив UserAction.
-      */
-    private UserAction[] actions = new UserAction[6];
+     */
+    private BaseAction[] actions = new BaseAction[6];
+
     /**
      * Коструктор.
-     * @param input - input.
+     *
+     * @param input   - input.
      * @param tracker - tracker.
      */
     public MenuTracker(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }
+
     /**
      * Метод заполняет массив пунктов меню.
      */
@@ -40,8 +43,10 @@ public class MenuTracker  {
         this.actions[4] = new FindItemByID();
         this.actions[5] = new FindItemsByName();
     }
+
     /**
      * Метод возращает массив ключей меню.
+     *
      * @return - массив ключей меню.
      */
     public int[] returnArrayOfMenuKeys() {
@@ -51,29 +56,40 @@ public class MenuTracker  {
         }
         return range;
     }
+
     /**
      * Метод по ключу вызывает выполнение пункта меню.
+     *
      * @param key - ключ.
      */
     public void selectMenuItem(int key) {
         this.actions[key].execute(this.input, this.tracker);
     }
+
     /**
      * Метод показывает печатет пункты меню.
      */
     public void showMenu() {
-        for (UserAction action : this.actions) {
+        for (BaseAction action : this.actions) {
             if (action != null) {
                 System.out.println(action.info());
             }
         }
     }
+
     /**
      * Класс AddItem, которые добавляет новые заявки в трекер.
      */
-    private class AddItem implements UserAction {
+    private class AddItem extends BaseAction {
+        /**
+         * Конструктор класса.
+         */
+        AddItem() {
+            super("Add the new item", 0);
+        }
         /**
          * Метод возращающий ключ.
+         *
          * @return - номер ключа равный 0.
          */
         public int key() {
@@ -81,28 +97,30 @@ public class MenuTracker  {
         }
         /**
          * Метод добавляющий заявку в трекер.
-         * @param input - input.
+         *
+         * @param input   - input.
          * @param tracker - tracker.
          */
         public void execute(Input input, Tracker tracker) {
             String nameItem = input.ask("Please, enter the task's name:");
-            String descriptionItem =  input.ask("Please, enter the task's description");
+            String descriptionItem = input.ask("Please, enter the task's description");
             tracker.add(new Item(nameItem, descriptionItem, 0L, null));
         }
-        /**
-         * Метод возращающий информацию о пункте меню.
-         * @return - возращает номер ключа и информацию пункта меню.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Add the new item");
-        }
     }
+
     /**
      * Класс ShowItems, который показывает все заявки трекера.
      */
-    private static class ShowItems implements UserAction {
+    private static class ShowItems extends BaseAction {
+        /**
+         * Конструктор класса.
+         */
+        ShowItems() {
+            super("Show all items", 1);
+        }
         /**
          * Метод возращающий ключ.
+         *
          * @return - номер ключа равный 1.
          */
         public int key() {
@@ -110,7 +128,8 @@ public class MenuTracker  {
         }
         /**
          * Метод, который показывает все заявки трекера.
-         * @param input - input.
+         *
+         * @param input   - input.
          * @param tracker - tracker.
          */
         public void execute(Input input, Tracker tracker) {
@@ -121,20 +140,20 @@ public class MenuTracker  {
                 System.out.println("Description item: " + itemAll.getDescription());
             }
         }
-        /**
-         * Метод возращающий информацию о пункте меню.
-         * @return - возращает номер ключа и информацию пункта меню.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Show all items");
-        }
     }
     /**
-     * Класс DeleteItem, который удаляет завку.
+     *  Класс DeleteItem удаляет заявку в трекере.
      */
-    private class DeleteItem implements UserAction {
+    private class DeleteItem extends BaseAction {
+        /**
+         *  Конструктор класса.
+         */
+        DeleteItem() {
+            super("Delete item", 3);
+        }
         /**
          * Метод возращающий ключ.
+         *
          * @return - номер ключа равный 3.
          */
         public int key() {
@@ -142,7 +161,8 @@ public class MenuTracker  {
         }
         /**
          * Метод, который удвет заявку.
-         * @param input - input.
+         *
+         * @param input   - input.
          * @param tracker - tracker.
          */
         public void execute(Input input, Tracker tracker) {
@@ -152,20 +172,21 @@ public class MenuTracker  {
             tracker.delete(item);
             System.out.println("Item " + item.getName() + " deleted");
         }
-        /**
-         * Метод возращающий информацию о пункте меню.
-         * @return - возращает номер ключа и информацию пункта меню.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Delete item");
-        }
     }
+
     /**
      * Класс FindItemByID, который находит заявку по ID.
      */
-    private class FindItemByID implements UserAction {
+    private class FindItemByID extends BaseAction {
+        /**
+         * Конструктор класса.
+         */
+        FindItemByID() {
+            super("Find item by id", 4);
+        }
         /**
          * Метод возращающий ключ.
+         *
          * @return - номер ключа равный 4.
          */
         public int key() {
@@ -173,7 +194,8 @@ public class MenuTracker  {
         }
         /**
          * Метод, который находит заявку по ID.
-         * @param input - input.
+         *
+         * @param input   - input.
          * @param tracker - tracker.
          */
         public void execute(Input input, Tracker tracker) {
@@ -183,20 +205,21 @@ public class MenuTracker  {
             System.out.println("Name item: " + item.getName());
             System.out.println("Description item: " + item.getDescription());
         }
-        /**
-         * Метод возращающий информацию о пункте меню.
-         * @return - возращает номер ключа и информацию пункта меню.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find item by id");
-        }
     }
+
     /**
      * Класс FindItemsByName, который находит заявку по имени.
      */
-    private class FindItemsByName implements UserAction {
+    private class FindItemsByName extends BaseAction {
+        /**
+         * Конструктор класса.
+         */
+        FindItemsByName() {
+            super("Find items by name", 5);
+        }
         /**
          * Метод возращающий ключ.
+         *
          * @return - номер ключа равный 5.
          */
         public int key() {
@@ -204,10 +227,11 @@ public class MenuTracker  {
         }
         /**
          * Метод, который находит заявку по имени.
-         * @param input - input.
+         *
+         * @param input   - input.
          * @param tracker - tracker.
          */
-        public void  execute(Input input, Tracker tracker) {
+        public void execute(Input input, Tracker tracker) {
             String nameItem = input.ask("Please, enter the task's name");
             Item[] items = tracker.findByName(nameItem);
             for (Item itemAll : items) {
@@ -216,21 +240,21 @@ public class MenuTracker  {
                 System.out.println("Description item: " + itemAll.getDescription());
             }
         }
-        /**
-         * Метод возращающий информацию о пункте меню.
-         * @return - возращает номер ключа и информацию пункта меню.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find items by name");
-        }
     }
 }
 /**
  * Класс EditItem, который редактирует заявку.
  */
-class EditItem implements UserAction {
+class EditItem extends BaseAction {
+    /**
+     * Конструктор класса.
+     */
+    EditItem() {
+        super("Edit item", 2);
+    }
     /**
      * Метод возращающий ключ.
+     *
      * @return - номер ключа равный 2.
      */
     public int key() {
@@ -238,23 +262,18 @@ class EditItem implements UserAction {
     }
     /**
      * Метод, который редактирует заявку.
-     * @param input - input.
+     *
+     * @param input   - input.
      * @param tracker - tracker.
      */
     public void execute(Input input, Tracker tracker) {
         String idItem = input.ask("Please, enter the task's id:");
         String nameItem = input.ask("Please, enter the task's name:");
-        String descriptionItem =  input.ask("Please, enter the task's description");
+        String descriptionItem = input.ask("Please, enter the task's description");
         Item item = new Item(nameItem, descriptionItem, 0L, null);
         item.setId(idItem);
         tracker.update(item);
         System.out.println(item.getId() + " updated");
     }
-    /**
-     * Метод возращающий информацию о пункте меню.
-     * @return - возращает номер ключа и информацию пункта меню.
-     */
-    public String info() {
-        return String.format("%s. %s", this.key(), "Edit item");
-    }
 }
+
