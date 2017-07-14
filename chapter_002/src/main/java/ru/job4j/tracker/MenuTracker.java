@@ -88,14 +88,6 @@ public class MenuTracker {
             super("Add the new item", 0);
         }
         /**
-         * Метод возращающий ключ.
-         *
-         * @return - номер ключа равный 0.
-         */
-        public int key() {
-            return 0;
-        }
-        /**
          * Метод добавляющий заявку в трекер.
          *
          * @param input   - input.
@@ -117,14 +109,6 @@ public class MenuTracker {
          */
         ShowItems() {
             super("Show all items", 1);
-        }
-        /**
-         * Метод возращающий ключ.
-         *
-         * @return - номер ключа равный 1.
-         */
-        public int key() {
-            return 1;
         }
         /**
          * Метод, который показывает все заявки трекера.
@@ -152,14 +136,6 @@ public class MenuTracker {
             super("Delete item", 3);
         }
         /**
-         * Метод возращающий ключ.
-         *
-         * @return - номер ключа равный 3.
-         */
-        public int key() {
-            return 3;
-        }
-        /**
          * Метод, который удвет заявку.
          *
          * @param input   - input.
@@ -183,14 +159,6 @@ public class MenuTracker {
          */
         FindItemByID() {
             super("Find item by id", 4);
-        }
-        /**
-         * Метод возращающий ключ.
-         *
-         * @return - номер ключа равный 4.
-         */
-        public int key() {
-            return 4;
         }
         /**
          * Метод, который находит заявку по ID.
@@ -218,14 +186,6 @@ public class MenuTracker {
             super("Find items by name", 5);
         }
         /**
-         * Метод возращающий ключ.
-         *
-         * @return - номер ключа равный 5.
-         */
-        public int key() {
-            return 5;
-        }
-        /**
          * Метод, который находит заявку по имени.
          *
          * @param input   - input.
@@ -251,14 +211,6 @@ class EditItem extends BaseAction {
      */
     EditItem() {
         super("Edit item", 2);
-    }
-    /**
-     * Метод возращающий ключ.
-     *
-     * @return - номер ключа равный 2.
-     */
-    public int key() {
-        return 2;
     }
     /**
      * Метод, который редактирует заявку.

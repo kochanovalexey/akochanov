@@ -25,6 +25,14 @@ abstract class BaseAction implements UserAction {
         this.key = key;
         this.name = name;
     }
+
+    /**
+     * Метод возращает ключ.
+     * @return - возращает key.
+     */
+    public int key() {
+        return this.key;
+    }
     /**
      * Метод инфо.
      * @return - возращает строку с ключом и названием пункта меню.
