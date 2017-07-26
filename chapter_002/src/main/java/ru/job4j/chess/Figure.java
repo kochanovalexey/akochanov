@@ -65,4 +65,13 @@ abstract class Figure {
     public Cell getPosition() {
         return this.position;
     }
+
+    /**
+     * Проверяет Cell не выходит за границы шахматной доски.
+     * @param dist - позиция.
+     * @return - boolean.
+     */
+    public boolean checkCellNotWayOutOfTheChessBoard(Cell dist) {
+        return dist.getHorizontalCell() > 0 && dist.getHorizontalCell() < 9 && dist.getVerticalCell() > 0 && dist.getVerticalCell() < 9;
+    }
 }

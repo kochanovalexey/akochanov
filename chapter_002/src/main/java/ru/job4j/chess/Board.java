@@ -12,6 +12,10 @@ public class Board {
      * Массив фигур.
      */
     private Figure[] figures = new Figure[2];
+    /**
+     * Фигура не найдена.
+     */
+    private static final int NOT_FOUND_FIGURE = -1;
 
     /**
      * Метод выполняет проверку на ошибки и если ошибок не выявлено перемещает фигуру в заданную позицию.
@@ -23,16 +27,10 @@ public class Board {
      * @throws FigureNotFoundException - исключение в случае, если фигура не найдена.
      */
     boolean move(Cell source, Cell dist) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
-        boolean invalid = false;
-        int index = 0;
-        for (int i = 0; i < figures.length; i++) {
-            if (figures[i].occupaid(source)) {
-                invalid = true;
-                index = i;
-                break;
-            }
-        }
-        if (!invalid) {
+        boolean invalid = true;
+
+        int index = findIndexByCell(source);
+        if (index == NOT_FOUND_FIGURE) {
             throw new FigureNotFoundException("Figure not found");
         }
         Cell[] way = new Cell[0];
@@ -44,19 +42,29 @@ public class Board {
         for (int i = 0; i < way.length; i++) {
             for (Figure figure : figures) {
                 if (figure.occupaid(way[i])) {
-                    invalid = false;
-                    break;
+                    throw  new OccupiedWayException("Occupied Way");
                 }
             }
         }
-        if (invalid) {
-            figures[index] = figures[index].cloneFigure(dist);
-        } else {
-            throw  new OccupiedWayException("Occupied Way");
-        }
+        figures[index] = figures[index].cloneFigure(dist);
         return invalid;
     }
 
+    /**
+     * Находит индекс фигуры по Cell.
+     * @param source - исходное положение фигуры.
+     * @return - возращает индекс фигуры.
+     */
+    int findIndexByCell(Cell source) {
+        int index = NOT_FOUND_FIGURE;
+        for (int i = 0; i < figures.length; i++) {
+            if (figures[i].occupaid(source)) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
     /**
      * Метод заполняет массив figures фигурами.
      */
@@ -71,7 +79,7 @@ public class Board {
     public void showPositionAllFigure() {
         for (Figure figure : figures) {
             figure.echoName();
-            System.out.println(" " + figure.getPosition().getHorizontalCell() + ":" + figure.getPosition().getVerticalCell());
+            System.out.println(String.format(" " + figure.getPosition().getHorizontalCell() + ":" + figure.getPosition().getVerticalCell()));
         }
     }
 
@@ -95,39 +103,15 @@ public class Board {
          */
         @Override
         Cell[] way(Cell dist) throws ImpossibleMoveException {
-            Cell position = getPosition();
-            if (Math.abs(position.getHorizontalCell() - dist.getHorizontalCell()) == Math.abs(position.getVerticalCell() - dist.getVerticalCell()) && dist.getVerticalCell() > 0 && dist.getVerticalCell() < 9 && dist.getHorizontalCell() > 0 && dist.getHorizontalCell() < 9) {
-                Cell[] way = new Cell[Math.abs(position.getHorizontalCell() - dist.getHorizontalCell())];
-                int index = 0;
-                if (position.getHorizontalCell() < dist.getHorizontalCell() && position.getVerticalCell() < dist.getVerticalCell()) {
-                    for (int i = position.getHorizontalCell() + 1; i < dist.getHorizontalCell() + 1; i++) {
-                        for (int j = position.getVerticalCell() + 1; j < dist.getVerticalCell() + 1; j++) {
-                            way[index] = new Cell(i, j);
-                        }
-                    }
-                    return way;
-                } else if (position.getHorizontalCell() > dist.getHorizontalCell() && position.getVerticalCell() < dist.getVerticalCell()) {
-                    for (int i = position.getHorizontalCell() - 1; i < dist.getHorizontalCell() - 1; i--) {
-                        for (int j = position.getVerticalCell() + 1; j < dist.getVerticalCell() + 1; j++) {
-                            way[index] = new Cell(i, j);
-                        }
-                    }
-                    return way;
-                } else if (position.getHorizontalCell() < dist.getHorizontalCell() && position.getVerticalCell() > dist.getVerticalCell()) {
-                    for (int i = position.getHorizontalCell() + 1; i < dist.getHorizontalCell() + 1; i++) {
-                        for (int j = position.getVerticalCell() - 1; j < dist.getVerticalCell() - 1; j--) {
-                            way[index] = new Cell(i, j);
-                        }
-                    }
-                    return way;
-                } else {
-                    for (int i = position.getHorizontalCell() - 1; i < dist.getHorizontalCell() - 1; i--) {
-                        for (int j = position.getVerticalCell() - 1; j < dist.getVerticalCell() - 1; j--) {
-                            way[index] = new Cell(i, j);
-                        }
-                    }
-                    return way;
+            int verticalPosition = getPosition().getVerticalCell();
+            int horizontalPosition = getPosition().getHorizontalCell();
+            if (Math.abs(horizontalPosition - dist.getHorizontalCell()) == Math.abs(verticalPosition - dist.getVerticalCell()) && checkCellNotWayOutOfTheChessBoard(dist)) {
+                int index = Math.abs(horizontalPosition - dist.getHorizontalCell());
+                Cell[] way = new Cell[index];
+                for (int i = 0; i < index; i++) {
+                    way[i] = new Cell(dist.getHorizontalCell() > horizontalPosition ? ++horizontalPosition : --horizontalPosition, dist.getVerticalCell() > verticalPosition ? ++verticalPosition : --verticalPosition);
                 }
+                return way;
             }
             throw new ImpossibleMoveException("The figure can not so walk");
         }
