@@ -38,9 +38,11 @@ public class ConvertListTest {
         ConvertList convertList = new ConvertList();
         int[][] expected = {{1, 2, 3}, {4, 5, 6}, {7, 0, 0}};
         List<Integer> list = new ArrayList<>();
+        list.add(null);
         for (int i = 1; i < 8; i++) {
             list.add(i);
         }
+        list.add(null);
         int[][] result = convertList.toArray(list, 3);
         assertThat(result, is(expected));
     }

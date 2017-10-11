@@ -34,6 +34,7 @@ public class ConvertList {
      */
     public int[][] toArray(List<Integer> list, int rows) {
         int cols;
+        while(list.remove(null));
         if (list.size() % rows == 0) {
             cols = list.size() / rows;
         } else {
