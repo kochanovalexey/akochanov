@@ -34,7 +34,10 @@ public class ConvertList {
      */
     public int[][] toArray(List<Integer> list, int rows) {
         int cols;
-        while(list.remove(null));
+        boolean hasNull = true;
+        while (hasNull) {
+            hasNull = list.remove(null);
+        }
         if (list.size() % rows == 0) {
             cols = list.size() / rows;
         } else {
@@ -51,5 +54,20 @@ public class ConvertList {
             }
         }
         return array;
+    }
+
+    /**
+     * Конвертирует List<int[]> в List<Integer>.
+     * @param list - входящий list
+     * @return List<Integer>
+     */
+    public List<Integer> convert(List<int[]> list) {
+        List<Integer> convert = new ArrayList<>();
+        for (int[] array : list) {
+            for (int element : array) {
+                convert.add(element);
+            }
+        }
+        return convert;
     }
 }
