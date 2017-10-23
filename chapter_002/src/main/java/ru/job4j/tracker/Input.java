@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.List;
+
 /**
  * Class Класс.
  *
@@ -21,5 +23,5 @@ public interface Input {
      * @param range - диапазон значений.
      * @return - int значение.
      */
-    int ask(String question, int[] range);
+    int ask(String question, List<Integer> range);
 }

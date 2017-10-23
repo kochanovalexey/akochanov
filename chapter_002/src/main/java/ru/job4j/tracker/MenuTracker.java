@@ -1,5 +1,8 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class Класс MenuTracker.
  *
@@ -19,8 +22,8 @@ public class MenuTracker {
     /**
      * Массив UserAction.
      */
-    private BaseAction[] actions = new BaseAction[6];
-
+    //private BaseAction[] actions = new BaseAction[6];
+    private List<BaseAction> actions = new ArrayList<>();
     /**
      * Коструктор.
      *
@@ -36,12 +39,12 @@ public class MenuTracker {
      * Метод заполняет массив пунктов меню.
      */
     public void fillActions() {
-        this.actions[0] = new AddItem();
-        this.actions[1] = new ShowItems();
-        this.actions[2] = new EditItem();
-        this.actions[3] = new DeleteItem();
-        this.actions[4] = new FindItemByID();
-        this.actions[5] = new FindItemsByName();
+        this.actions.add(new AddItem());
+        this.actions.add(new ShowItems());
+        this.actions.add(new EditItem());
+        this.actions.add(new DeleteItem());
+        this.actions.add(new FindItemByID());
+        this.actions.add(new FindItemsByName());
     }
 
     /**
@@ -49,10 +52,10 @@ public class MenuTracker {
      *
      * @return - массив ключей меню.
      */
-    public int[] returnArrayOfMenuKeys() {
-        int[] range = new int[this.actions.length];
-        for (int i = 0; i < this.actions.length; i++) {
-            range[i] = actions[i].key();
+    public List<Integer> returnArrayOfMenuKeys() {
+        List<Integer> range = new ArrayList<>();
+        for (BaseAction action : actions) {
+            range.add(action.key());
         }
         return range;
     }
@@ -63,7 +66,7 @@ public class MenuTracker {
      * @param key - ключ.
      */
     public void selectMenuItem(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+        this.actions.get(key).execute(this.input, this.tracker);
     }
 
     /**
@@ -117,7 +120,7 @@ public class MenuTracker {
          * @param tracker - tracker.
          */
         public void execute(Input input, Tracker tracker) {
-            Item[] items = tracker.findAll();
+            List<Item> items = tracker.findAll();
             for (Item itemAll : items) {
                 System.out.println("Id item: " + itemAll.getId());
                 System.out.println("Name item: " + itemAll.getName());
@@ -193,7 +196,7 @@ public class MenuTracker {
          */
         public void execute(Input input, Tracker tracker) {
             String nameItem = input.ask("Please, enter the task's name");
-            Item[] items = tracker.findByName(nameItem);
+            List<Item> items = tracker.findByName(nameItem);
             for (Item itemAll : items) {
                 System.out.println("Id item: " + itemAll.getId());
                 System.out.println("Name item: " + itemAll.getName());

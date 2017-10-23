@@ -2,6 +2,9 @@ package ru.job4j.tracker;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -20,9 +23,15 @@ public class StubInputTest {
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();
-        Input input = new StubInput(new String[]{"test name", "desc", "y"}, new int[]{0});
+        List<String> answerOnQuestion = new ArrayList<>();
+        answerOnQuestion.add("test name");
+        answerOnQuestion.add("desc");
+        answerOnQuestion.add("y");
+        List<Integer> answerItemMenu = new ArrayList<>();
+        answerItemMenu.add(0);
+        Input input = new StubInput(answerOnQuestion, answerItemMenu);
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll()[0].getName(), is("test name"));
+        assertThat(tracker.findAll().get(0).getName(), is("test name"));
     }
     /**
      * Test whenUserAddItemThenTrackerHasNewItemWithSameDescription.
@@ -30,9 +39,15 @@ public class StubInputTest {
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameDescription() {
         Tracker tracker = new Tracker();
-        Input input = new StubInput(new String[]{"test name", "desc", "y"}, new int[]{0});
+        List<String> answerOnQuestion = new ArrayList<>();
+        answerOnQuestion.add("test name");
+        answerOnQuestion.add("desc");
+        answerOnQuestion.add("y");
+        List<Integer> answerItemMenu = new ArrayList<>();
+        answerItemMenu.add(0);
+        Input input = new StubInput(answerOnQuestion, answerItemMenu);
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll()[0].getDescription(), is("desc"));
+        assertThat(tracker.findAll().get(0).getDescription(), is("desc"));
     }
     /**
      * Test whenUserUpdateItemThenTrackerHasItemWithSameName.
@@ -40,11 +55,24 @@ public class StubInputTest {
     @Test
     public void whenUserUpdateItemThenTrackerHasItemWithSameName() {
         Tracker tracker = new Tracker();
-        Input input = new StubInput(new String[]{"test name", "desc", "y"}, new int[]{0});
+        List<String> answerOnQuestion = new ArrayList<>();
+        answerOnQuestion.add("test name");
+        answerOnQuestion.add("desc");
+        answerOnQuestion.add("y");
+        List<Integer> answerItemMenu = new ArrayList<>();
+        answerItemMenu.add(0);
+        Input input = new StubInput(answerOnQuestion, answerItemMenu);
         new StartUI(input, tracker).init();
-        input = new StubInput(new String[]{tracker.findAll()[0].getId(), "test name updated", "desk", "y"}, new int[]{2});
+        answerOnQuestion = new ArrayList<>();
+        answerOnQuestion.add(tracker.findByName("test name").get(0).getId());
+        answerOnQuestion.add("test name updated");
+        answerOnQuestion.add("desk");
+        answerOnQuestion.add("y");
+        answerItemMenu = new ArrayList<>();
+        answerItemMenu.add(2);
+        input = new StubInput(answerOnQuestion, answerItemMenu);
         new StartUI(input, tracker).init();
-        assertThat(tracker.findByName("test name updated")[0].getName(), is("test name updated"));
+        assertThat(tracker.findByName("test name updated").get(0).getName(), is("test name updated"));
     }
     /**
      * Test whenUserUpdateItemThenTrackerHasItemWithSameDescription.
@@ -52,11 +80,24 @@ public class StubInputTest {
     @Test
     public void whenUserUpdateItemThenTrackerHasItemWithSameDescription() {
         Tracker tracker = new Tracker();
-        Input input = new StubInput(new String[]{"test name", "desc", "y"}, new int[]{0});
+        List<String> answerOnQuestion = new ArrayList<>();
+        answerOnQuestion.add("test name");
+        answerOnQuestion.add("desc");
+        answerOnQuestion.add("y");
+        List<Integer> answerItemMenu = new ArrayList<>();
+        answerItemMenu.add(0);
+        Input input = new StubInput(answerOnQuestion, answerItemMenu);
         new StartUI(input, tracker).init();
-        input = new StubInput(new String[]{tracker.findAll()[0].getId(), "test name", "desk updated", "y"}, new int[]{2});
+        answerOnQuestion = new ArrayList<>();
+        answerOnQuestion.add(tracker.findAll().get(0).getId());
+        answerOnQuestion.add("test name");
+        answerOnQuestion.add("desk updated");
+        answerOnQuestion.add("y");
+        answerItemMenu = new ArrayList<>();
+        answerItemMenu.add(2);
+        input = new StubInput(answerOnQuestion, answerItemMenu);
         new StartUI(input, tracker).init();
-        assertThat(tracker.findByName("test name")[0].getDescription(), is("desk updated"));
+        assertThat(tracker.findByName("test name").get(0).getDescription(), is("desk updated"));
     }
     /**
      * Test whenUserDeleteItemThenTrackerDidNotHaveThisItem.
@@ -64,9 +105,23 @@ public class StubInputTest {
     @Test
     public void whenUserDeleteItemThenTrackerDidNotHaveThisItem() {
         Tracker tracker = new Tracker();
-        Input input = new StubInput(new String[]{"test name", "desc", "y"}, new int[]{0});
+        List<String> answerOnQuestion = new ArrayList<>();
+        answerOnQuestion.add("test name");
+        answerOnQuestion.add("desc");
+        answerOnQuestion.add("y");
+        List<Integer> answerItemMenu = new ArrayList<>();
+        answerItemMenu.add(0);
+
+        Input input = new StubInput(answerOnQuestion, answerItemMenu);
         new StartUI(input, tracker).init();
-        input = new StubInput(new String[]{tracker.findAll()[0].getId(), "y"}, new int[]{3});
+
+        answerOnQuestion = new ArrayList<>();
+        answerOnQuestion.add(tracker.findAll().get(0).getId());
+        answerOnQuestion.add("y");
+        answerItemMenu = new ArrayList<>();
+        answerItemMenu.add(3);
+
+        input = new StubInput(answerOnQuestion, answerItemMenu);
         new StartUI(input, tracker).init();
         assertNull(tracker.findByName("test name"));
     }
@@ -77,7 +132,13 @@ public class StubInputTest {
     @Test(expected = MenuOutException.class)
     public void whenUserCausesException() {
         Tracker tracker = new Tracker();
-        Input input = new StubInput(new String[]{"test name", "desc", "y"}, new int[]{10});
+        List<String> answerOnQuestion = new ArrayList<>();
+        answerOnQuestion.add("test name");
+        answerOnQuestion.add("desc");
+        answerOnQuestion.add("y");
+        List<Integer> answerItemMenu = new ArrayList<>();
+        answerItemMenu.add(10);
+        Input input = new StubInput(answerOnQuestion, answerItemMenu);
         new StartUI(input, tracker).init();
     }
 }

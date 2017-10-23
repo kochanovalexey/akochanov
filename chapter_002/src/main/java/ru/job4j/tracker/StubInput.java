@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.List;
+
 /**
  * Class Класс.
  *
@@ -11,11 +13,11 @@ public class StubInput implements Input {
     /**
      * Массив answerOnQuestion.
      */
-    private String[] answerOnQuestion;
+    private List<String> answerOnQuestion;
     /**
      * Массив answerItemMenu.
      */
-    private int[] answerItemMenu;
+    private List<Integer> answerItemMenu;
     /**
      * Позиция в массиве answerOnQuestion.
      */
@@ -30,17 +32,17 @@ public class StubInput implements Input {
      * @param answerOnQuestion - answer on question.
      * @param answerItemMenu - answer item menu.
      */
-    public StubInput(String[] answerOnQuestion, int[] answerItemMenu) {
+    public StubInput(List<String> answerOnQuestion, List<Integer> answerItemMenu) {
         this.answerOnQuestion = answerOnQuestion;
         this.answerItemMenu = answerItemMenu;
     }
     @Override
     public String ask(String question) {
-        return answerOnQuestion[positionAnswerOnQuestion++];
+        return answerOnQuestion.get(positionAnswerOnQuestion++);
     }
     @Override
-    public int ask(String question, int[] range) {
-        int value = answerItemMenu[positionAnswerItemMenu++];
+    public int ask(String question, List<Integer> range) {
+        int value = answerItemMenu.get(positionAnswerItemMenu++);
         for (int item : range) {
             if (item == value) {
                 return value;
