@@ -48,12 +48,7 @@ public class Bank {
     }
 
     public boolean existUser(User user) {
-        for (User foundUser : map.keySet()) {
-            if (foundUser.equals(user)) {
-                return true;
-            }
-        }
-        return false;
+        return map.containsKey(user);
     }
 
     public Account getUserAccount(User user, Account account) {
