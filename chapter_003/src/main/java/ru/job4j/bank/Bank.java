@@ -19,76 +19,34 @@ public class Bank {
         map.put(user, new ArrayList<Account>());
     }
     public void deleteUser(User user) {
-        for (User foundUser : map.keySet()) {
-            if (foundUser.equals(user)) {
-                map.remove(foundUser);
-            }
-        }
+        map.remove(user);
     }
     public void addAccountToUser(User user, Account account) {
-        for (User foundUser : map.keySet()) {
-            if (foundUser.equals(user)) {
-                List<Account> userAccounts = map.get(foundUser);
-                userAccounts.add(account);
-            }
-        }
+        List<Account> userAccounts  = map.get(user);
+        userAccounts.add(account);
     }
     public void deleteAccountFromUser(User user, Account account) {
-        for (User foundUser : map.keySet()) {
-            if (foundUser.equals(user)) {
-                List<Account> userAccounts = map.get(foundUser);
-                userAccounts.remove(account);
-            }
-        }
+        List<Account> userAccounts = map.get(user);
+        userAccounts.remove(account);
     }
     public List<Account> getUserAccounts(User user) {
-        for (User foundUser : map.keySet()) {
-            if (foundUser.equals(user)) {
-                return map.get(foundUser);
-            }
-        }
-        return null;
+        return map.get(user);
     }
     public boolean transferMoney(User srcUser, Account srcAccount, User dstUser, Account dstAccount, double amount) {
-        List<Account> srcListAccount = null;
-        for (User foundUser : map.keySet()) {
-            if (foundUser.equals(srcUser)) {
-                srcListAccount = map.get(foundUser);
-            }
-        }
-        if (srcListAccount == null) {
+        Account srcFoundAccount = getUserAccount(srcUser, srcAccount);
+        if (srcFoundAccount == null && srcFoundAccount.getValue() < amount) {
             return false;
         }
 
-        double balance = 0;
-        Account foundAccount = null;
-        for (Account expectedAccount : srcListAccount) {
-            if (expectedAccount.equals(srcAccount)) {
-                balance = expectedAccount.getValue();
-                foundAccount = expectedAccount;
-            }
-        }
-        if (balance < amount) {
+        Account dstFoundAccount = getUserAccount(dstUser, dstAccount);
+        if (dstAccount == null) {
             return false;
         }
-        List<Account> dstListAccount = null;
-        for (User foundUser : map.keySet()) {
-            if (foundUser.equals(dstUser)) {
-                dstListAccount = map.get(foundUser);
-            }
-        }
-        if (dstListAccount == null) {
-            return false;
-        }
-        for (Account expectedAccount : dstListAccount) {
-            if (expectedAccount.equals(dstAccount)) {
-                foundAccount.setValue(foundAccount.getValue() - amount);
-                expectedAccount.setValue(expectedAccount.getValue() + amount);
-                return true;
-            }
-        }
-        return false;
+        srcFoundAccount.setValue(srcFoundAccount.getValue() - amount);
+        dstFoundAccount.setValue(dstFoundAccount.getValue() + amount);
+        return true;
     }
+
     public boolean existUser(User user) {
         for (User foundUser : map.keySet()) {
             if (foundUser.equals(user)) {
@@ -96,5 +54,15 @@ public class Bank {
             }
         }
         return false;
+    }
+
+    public Account getUserAccount(User user, Account account) {
+        List<Account> listAccount = map.get(user);
+        for (Account expectedAccount : listAccount) {
+            if (expectedAccount.equals(account)) {
+                return expectedAccount;
+            }
+        }
+        return null;
     }
 }
